@@ -70,7 +70,8 @@ class TwitterBootstrapFormFor::FormBuilder < ActionView::Helpers::FormBuilder
     if @options[:layout] == :horizontal
       options  = args.extract_options!
       options[:class] ||= 'col-lg-offset-2 col-lg-10'
-      self.div_wrapper(:div, :class => 'form-group') do
+      options[:wrapper_class] ||= 'form-group'
+      self.div_wrapper(:div, :class => options[:wrapper_class]) do
         template.content_tag(:div, :class => options[:class], &block)
       end
     else
