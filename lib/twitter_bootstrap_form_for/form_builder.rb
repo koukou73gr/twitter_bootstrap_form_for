@@ -93,11 +93,22 @@ class TwitterBootstrapFormFor::FormBuilder < ActionView::Helpers::FormBuilder
   # Creates bootstrap wrapping before yielding a plain old rails builder
   # to the supplied block.
   #
-  def inline(label = nil, &block)
-    template.content_tag(:div) do
-      template.concat template.content_tag(:label, label) if label.present?
-      template.concat template.content_tag(:div, :class => 'input') {
-        template.content_tag(:div, :class => 'inline-inputs') do
+  def inline(label = nil, options ={},  &block)
+    template.content_tag(:div, class: "form-group") do
+      if options[:div_class].present?
+         label_class = options[:label_class]
+      elsif @options[:default_label_class].present?
+         label_class =  @options[:default_label_class]
+      end
+      template.concat template.content_tag(:label, label, class: label_class) if label.present?
+      if options[:div_class].present?
+        div_class = options[:div_class]
+      elsif @options[:default_div_class].present?
+        div_class =  @options[:default_div_class]
+      end
+
+      template.concat template.content_tag(:div, :class => div_class) { # col-xs-3
+        template.content_tag(:div, :class => 'form-inline') do 
           template.fields_for(
             self.object_name,
             self.object,
@@ -145,6 +156,8 @@ class TwitterBootstrapFormFor::FormBuilder < ActionView::Helpers::FormBuilder
       target      = self.object_name.to_s + '_' + attribute.to_s
       label_attrs = toggle == :check_box ? { :for => target } : {}
 
+      toggle_name = toggle == :check_box ? "checkbox" : "radio"
+      label_attrs[:class] = "#{toggle_name}-inline"
       template.concat template.content_tag(:label, label_attrs) {
         template.concat super(attribute, *args)
         template.concat ' ' # give the input and span some room
