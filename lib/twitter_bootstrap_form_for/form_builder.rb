@@ -108,14 +108,14 @@ class TwitterBootstrapFormFor::FormBuilder < ActionView::Helpers::FormBuilder
       end
 
       template.concat template.content_tag(:div, :class => div_class) { # col-xs-3
-        template.content_tag(:div, :class => 'form-inline') do 
+      #  template.content_tag(:div, :class => 'form-inline') do 
           template.fields_for(
             self.object_name,
             self.object,
             self.options.merge(:builder => ActionView::Helpers::FormBuilder),
             &block
           )
-        end
+      #  end
       }
     end
   end
