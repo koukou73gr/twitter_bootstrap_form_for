@@ -94,7 +94,7 @@ class TwitterBootstrapFormFor::FormBuilder < ActionView::Helpers::FormBuilder
   # to the supplied block.
   #
   def inline(label = nil, options ={},  &block)
-    group_class = "form-group#{options[:has_error] && ' has-error'}"
+    group_class = "form-group#{options[:has_error] ? ' has-error' : nil}"
     template.content_tag(:div, class: group_class) do
       if options[:label_class].present?
          label_class = options[:label_class]
