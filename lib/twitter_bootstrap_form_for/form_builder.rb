@@ -126,8 +126,8 @@ class TwitterBootstrapFormFor::FormBuilder < ActionView::Helpers::FormBuilder
 
       options  = args.extract_options!
       label    = args.first.nil? ? '' : args.shift
-      label_class = options[:label_class] || @options[:default_label_class]
-      options.delete :label_class
+      label_class = options.delete(:label_class) || @options[:default_label_class]
+      label = nil if options[:label] == false
 
       self.div_wrapper(attribute, :class => 'form-group') do
         template.concat self.label(attribute, label, :class => label_class) if label
